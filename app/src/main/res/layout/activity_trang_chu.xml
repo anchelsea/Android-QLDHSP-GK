@@ -84,6 +84,7 @@
 
         >
         <LinearLayout
+            android:id="@+id/layoutKH"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:orientation="vertical"

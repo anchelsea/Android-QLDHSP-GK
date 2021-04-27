@@ -63,7 +63,6 @@ public class ThemSanPham extends AppCompatActivity {
                 Toast.makeText(ThemSanPham.this, "Thêm sản phẩm thành công !!!!", Toast.LENGTH_SHORT).show();
 
                 imv_hienThiHinhAnh.setImageResource(R.drawable.avt);
-                btn_ThemMoiSanPham.setText("");
                 txt_TenSP.setText("");
                 txt_XuatXu.setText("");
                 txt_DonGia.setText("");

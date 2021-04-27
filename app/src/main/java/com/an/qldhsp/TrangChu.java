@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 
 public class TrangChu extends AppCompatActivity {
 
-    LinearLayout layoutSP;
+    LinearLayout layoutSP, layoutKH;
     DatabaseHelper databaseHelper;
 
 
@@ -22,11 +22,19 @@ public class TrangChu extends AppCompatActivity {
         // khoi tao database
         khoiTaoSP();
 
-        Intent intentSp = new Intent(this,HienThiSanPham.class);
+        Intent intentSp = new Intent(this, HienThiSanPham.class);
         layoutSP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(intentSp);
+            }
+        });
+
+        Intent intentKH = new Intent(this,QLKhachHang.class);
+        layoutKH.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(intentKH);
             }
         });
     }
@@ -34,10 +42,11 @@ public class TrangChu extends AppCompatActivity {
 
     private void setControl() {
         layoutSP = findViewById(R.id.layoutsanpham);
+        layoutKH = findViewById(R.id.layoutKH);
     }
 
-    public void khoiTaoSP(){
-        databaseHelper = new DatabaseHelper(this,"QLDHDB.sqlite",null,1);
+    public void khoiTaoSP() {
+        databaseHelper = new DatabaseHelper(this, "QLDHDB.sqlite", null, 1);
         String DONDATHANG = "CREATE TABLE IF NOT EXISTS DONDATHANG (MADH INTEGER NOT NULL,NGAYDH TEXT,MAKH INTEGER NOT NULL, FOREIGN KEY (MAKH) REFERENCES KHACHANG(MAKH),PRIMARY KEY (MADH AUTOINCREMENT))";
         String SANPHAM = "CREATE TABLE IF NOT EXISTS SANPHAM ( MASP INTEGER NOT NULL,TENSP TEXT, XUATXU TEXT,DONGIA INTEGER,HINHANH BLOB, PRIMARY KEY(MASP AUTOINCREMENT))";
         String KHACHHANG = "CREATE TABLE IF NOT EXISTS KHACHHANG (MAKH INTEGER NOT NULL,TENKH TEXT,DIACHI TEXT,DIENTHOAI TEXT,PRIMARY KEY(MAKH AUTOINCREMENT))";

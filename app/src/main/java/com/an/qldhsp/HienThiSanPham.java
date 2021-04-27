@@ -97,7 +97,7 @@ public class HienThiSanPham extends AppCompatActivity {
             String xuatxu = cursor.getString(2);
             int dongia = cursor.getInt(3);
             byte[] hinhanh = cursor.getBlob(4);
-            Log.e("SELECT * FROM :",MASP + "  "+ tensp + "  "+xuatxu+"  "+dongia+"  "+hinhanh);
+//            Log.e("SELECT * FROM :",MASP + "  "+ tensp + "  "+xuatxu+"  "+dongia+"  "+hinhanh);
             sanPhamArrayList.add(new SanPham(MASP,tensp,xuatxu,dongia,hinhanh));
         }
 
