@@ -2,14 +2,18 @@ package com.an.qldhsp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class TrangChu extends AppCompatActivity {
 
-    LinearLayout layoutSP, layoutKH;
+    LinearLayout layoutSP, layoutKH,layoutDDH;
+    TextView tvInfo;
     DatabaseHelper databaseHelper;
 
 
@@ -37,12 +41,32 @@ public class TrangChu extends AppCompatActivity {
                 startActivity(intentKH);
             }
         });
+
+        Intent intentDDH = new Intent(this,QLDonDatHang.class);
+        layoutDDH.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(intentDDH);
+            }
+        });
+
+        tvInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog infoDialog = new Dialog(TrangChu.this);
+                infoDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                infoDialog.setContentView(R.layout.dialog_thong_tin);
+                infoDialog.show();
+            }
+        });
     }
 
 
     private void setControl() {
         layoutSP = findViewById(R.id.layoutsanpham);
         layoutKH = findViewById(R.id.layoutKH);
+        layoutDDH = findViewById(R.id.layoutDDH);
+        tvInfo=findViewById(R.id.tvInfo);
     }
 
     public void khoiTaoSP() {

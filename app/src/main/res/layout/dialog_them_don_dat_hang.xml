@@ -1,54 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="300dp"
     android:layout_height="400dp"
-    android:layout_gravity="center"
-    android:background="#FFFFFF"
     android:gravity="center"
-    android:orientation="vertical">
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:background="#FFFFFF">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:paddingTop="10dp"
-        android:text="Thêm khách hàng"
+        android:text="Thêm đơn đặt hàng"
         android:textColor="#0080D6"
         android:textSize="25dp"
         android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/etThemTenKhachHang"
+    <Spinner
+        android:id="@+id/spnKH"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:hint="Nhập tên khách hàng" />
+        android:layout_height="wrap_content"/>
 
     <EditText
-        android:id="@+id/etThemSDTKhachHang"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:hint="Nhập SDT khách hàng"
-        android:inputType="phone" />
-
-    <EditText
-        android:id="@+id/etThemDiachiKhachHang"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:hint="Nhập địa chỉ khách hàng" />
-
-    <LinearLayout
+        android:hint="Nhập ngày"
+        android:id="@+id/etNgayDH"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
+        android:inputType="date"/>
 
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
         <Button
-            android:id="@+id/btnThem"
+            android:id="@+id/btnThemDDH"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/btngreen"
@@ -57,14 +49,14 @@
             app:backgroundTint="@null" />
 
         <Button
-            android:id="@+id/btnHuy"
+            android:id="@+id/btnHuyDDH"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:background="@drawable/btnred"
             android:text="Hủy"
             android:textColor="@color/black"
-            app:backgroundTint="@null" />
+            app:backgroundTint="@null"  />
 
     </LinearLayout>
 
