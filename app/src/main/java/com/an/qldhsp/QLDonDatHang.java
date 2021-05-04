@@ -14,10 +14,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -27,8 +30,10 @@ public class QLDonDatHang extends AppCompatActivity {
 
     ArrayList<DonDatHang> donDatHangArrayList;
     ArrayList<KhachHang> khachHangArrayList;
+    ArrayList<SanPham> sanPhamArrayList;
     DonDatHangAdapter adapterDonDatHang;
     ViewKhachHangAdapter adapterKhachHang;
+    XemSanPhamAdapter adapterSanPham;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,17 +43,31 @@ public class QLDonDatHang extends AppCompatActivity {
         lvDonDatHang = findViewById(R.id.lvdonhang);
         donDatHangArrayList = new ArrayList<>();
         khachHangArrayList = new ArrayList<>();
+        sanPhamArrayList = new ArrayList<>();
         adapterDonDatHang = new DonDatHangAdapter(this, R.layout.dong_hoa_don, donDatHangArrayList);
         adapterKhachHang = new ViewKhachHangAdapter(this, R.layout.dong_view_khach_hang, khachHangArrayList);
+        adapterSanPham = new XemSanPhamAdapter(this, R.layout.dong_xem_san_pham, sanPhamArrayList);
         lvDonDatHang.setAdapter(adapterDonDatHang);
 
+
         database = new DatabaseHelper(this, "QLDHDB.sqlite", null, 1);
-
-//        database.QueryData("CREATE TABLE IF NOT EXISTS KHACHHANG (MAKH INTEGER NOT NULL,TENKH TEXT,DIACHI TEXT,DIENTHOAI TEXT,PRIMARY KEY(MAKH AUTOINCREMENT))");
-
-       // database.QueryData("INSERT INTO DONDATHANG VALUES(null,'1','ahihi')");
         getDataDonHang();
+    }
 
+    private void getDataSanPham() {
+        String sql = "SELECT * FROM SANPHAM";
+        Cursor cursor = database.GetData(sql);
+        sanPhamArrayList.clear();
+        while (cursor.moveToNext()) {
+            int MASP = cursor.getInt(0);
+            String tensp = cursor.getString(1);
+            String xuatxu = cursor.getString(2);
+            int dongia = cursor.getInt(3);
+            byte[] hinhanh = cursor.getBlob(4);
+//            Log.e("SELECT * FROM :",MASP + "  "+ tensp + "  "+xuatxu+"  "+dongia+"  "+hinhanh);
+            sanPhamArrayList.add(new SanPham(MASP, tensp, xuatxu, dongia, hinhanh));
+        }
+        adapterKhachHang.notifyDataSetChanged();
     }
 
     private void getDataKhachHang() {
@@ -69,13 +88,23 @@ public class QLDonDatHang extends AppCompatActivity {
         Cursor dataDonHang = database.GetData("SELECT * FROM DONDATHANG");
         while (dataDonHang.moveToNext()) {
             int maDH = dataDonHang.getInt(0);
-            String maKH = dataDonHang.getString(1);
-            String ngay = dataDonHang.getString(2);
-            //   String  = dataDonHang.getString(3);
-            donDatHangArrayList.add(new DonDatHang(maDH, maKH, ngay));
+            int maKH = dataDonHang.getInt(2);
+            String ngay = dataDonHang.getString(1);
+            donDatHangArrayList.add(new DonDatHang(maDH, ngay, maKH));
         }
         adapterDonDatHang.notifyDataSetChanged();
     }
+
+//    private void getDataTTDDH(SanPhamAdapter tempAdapter, ArrayList<SanPham> TTDDHarr, int maDH) {
+//        TTDDHarr.clear();
+//        Cursor dataTTDDH = database.GetData("SELECT * FROM THONGTINDDH WHERE MAKH=" + maDH);
+//        while (dataTTDDH.moveToNext()) {
+//            int maSP = dataTTDDH.getInt(1);
+//            int slDat = dataTTDDH.getInt(2);
+//            TTDDHarr.add(new ThongTinDDH(maDH, maSP, slDat));
+//        }
+//        tempAdapter.notifyDataSetChanged();
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -95,6 +124,7 @@ public class QLDonDatHang extends AppCompatActivity {
         Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_them_don_dat_hang);
+
 
         Spinner spnKhachHang;
         spnKhachHang = (Spinner) dialog.findViewById(R.id.spnKH);
@@ -119,10 +149,10 @@ public class QLDonDatHang extends AppCompatActivity {
                 String ngay = ngayDDH.getText().toString();
                 if (ngay.equals("")) {
                     Toast.makeText(QLDonDatHang.this, "Vui lòng nhập ngày!", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     KhachHang kh = khachHangArrayList.get(spnKhachHang.getSelectedItemPosition());
-                    String query=String.format("INSERT INTO DONDATHANG VALUES(null,'%s','%s')",kh.getId(),ngay);
+                    String query = String.format("INSERT INTO DONDATHANG(MADH,NGAYDH,MAKH) VALUES(null,'%s','%d')", ngay, kh.getId());
+                    Log.i("hi", query);
                     database.QueryData(query);
                     Toast.makeText(QLDonDatHang.this, "Thêm thành công!", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
@@ -133,52 +163,140 @@ public class QLDonDatHang extends AppCompatActivity {
         dialog.show();
     }
 
-//    public void DialogSua(int id, String ten,String diachi,String SDT) {
-//        Dialog dialog = new Dialog(this);
-//        dialog.setCanceledOnTouchOutside(false);
-//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        dialog.setContentView(R.layout.dialog_sua_khach_hang);
-//
-//        EditText etTenKhachHang = dialog.findViewById(R.id.etSuaTenKhachHang);
-//        EditText etSDTKhachHang = dialog.findViewById(R.id.etSuaSDTKhachHang);
-//        EditText etDiaChiKhachHang = dialog.findViewById(R.id.etSuaDiachiKhachHang);
-//        Button btnSua = dialog.findViewById(R.id.btnSua);
-//        Button btnHuy = dialog.findViewById(R.id.btnHuys);
-//        etTenKhachHang.setText(ten);
-//        etSDTKhachHang.setText(SDT);
-//        etDiaChiKhachHang.setText(diachi);
-//
-//        btnHuy.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dialog.dismiss();
-//            }
-//        });
-//        btnSua.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String tenMoi = etTenKhachHang.getText().toString();
-//                String SDTMoi = etSDTKhachHang.getText().toString();
-//                String diaChiMoi=etDiaChiKhachHang.getText().toString();
-//                if (tenMoi.equals("")) {
-//                    Toast.makeText(QLDonDatHang.this, "Vui lòng nhập tên!", Toast.LENGTH_SHORT).show();
-//                }
-//                else if (SDTMoi.equals("")){
-//                    Toast.makeText(QLDonDatHang.this, "Vui lòng nhập SDT!", Toast.LENGTH_SHORT).show();
-//                }else if (diaChiMoi.equals("")){
-//                    Toast.makeText(QLDonDatHang.this, "Vui lòng nhập địa chỉ!", Toast.LENGTH_SHORT).show();
-//                }
-//                else {
-//                    String query=String.format("UPDATE KHACHHANG SET TENKH='%s',DIACHI='%s',DIENTHOAI='%s' WHERE MAKH=%d",tenMoi,diaChiMoi,SDTMoi,id);
-//                    database.QueryData(query);
-//                    Toast.makeText(QLDonDatHang.this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
-//                    dialog.dismiss();
-//                    getDataDonHang();
-//                }
-//            }
-//        });
-//        dialog.show();
-//    }
+    public void DialogSua(int maDDH, int maKH, String ngay) {
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_sua_don_dat_hang);
+
+        ArrayList<ThongTinDDH> thongTinDDHArrayList = new ArrayList<>();
+        ListView lvTTDDH = dialog.findViewById(R.id.lvTTDDH);
+
+        ArrayList<SanPham> tempSPList = new ArrayList<>();
+        XemSanPhamAdapter tempSPAdapter = new XemSanPhamAdapter(this, R.layout.dong_xem_san_pham, tempSPList);
+//        getDataTTDDH(tempSPAdapter,tempSPList,maDDH);
+        lvTTDDH.setAdapter(tempSPAdapter);
+
+        Spinner spnKhachHang;
+        spnKhachHang = (Spinner) dialog.findViewById(R.id.spnKH);
+        spnKhachHang.setAdapter(adapterKhachHang);
+        getDataKhachHang();
+        for (int i = 0; i < khachHangArrayList.size(); i++) {
+            if (khachHangArrayList.get(i).getId() == maKH)
+                spnKhachHang.setSelection(i);
+        }
+
+        EditText ngayDDH = dialog.findViewById(R.id.etNgayDH);
+        ngayDDH.setText(ngay);
+        Button btnSua = dialog.findViewById(R.id.btnSuaDDH);
+        Button btnHuySua = dialog.findViewById(R.id.btnHuySuaDDH);
+
+        btnHuySua.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.setCanceledOnTouchOutside(false);
+
+        btnSua.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String ngay = ngayDDH.getText().toString();
+                if (ngay.equals("")) {
+                    Toast.makeText(QLDonDatHang.this, "Vui lòng nhập ngày!", Toast.LENGTH_SHORT).show();
+                } else {
+                    KhachHang kh = khachHangArrayList.get(spnKhachHang.getSelectedItemPosition());
+                    String query = String.format("UPDATE DONDATHANG SET NGAYDH='%s',MAKH=%d WHERE MADH=%d", ngay, kh.getId(), maDDH);
+                    database.QueryData(query);
+                    for (ThongTinDDH i : thongTinDDHArrayList) {
+                        String query2 = String.format("INSERT INTO THONGTINDDH(MADH,MASP,SOLUONGDAT) VALUES(%d,%d,%d)", maDDH, i.getMaSP(), 1);
+                        database.QueryData(query2);
+                    }
+                    Toast.makeText(QLDonDatHang.this, "Sửa thành công!", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                    getDataDonHang();
+                }
+            }
+        });
+        dialog.show();
+        Button btnpicker = dialog.findViewById(R.id.btnpicker);
+        btnpicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogThemSP(thongTinDDHArrayList, tempSPAdapter, tempSPList);
+
+            }
+        });
+
+    }
+
+    public void DialogThemSP(ArrayList<ThongTinDDH> thongTinDDHarr, XemSanPhamAdapter fakeAdapter, ArrayList<SanPham> fakearr) {
+        getDataSanPham();
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_them_sp);
+
+        Spinner spnSP;
+        spnSP = (Spinner) dialog.findViewById(R.id.spnSP);
+        spnSP.setAdapter(adapterSanPham);
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ThongTinDDH tempTT = new ThongTinDDH(-1, sanPhamArrayList.get(spnSP.getSelectedItemPosition()).getMaSP(), 1);
+                thongTinDDHarr.add(tempTT);
+                dialog.dismiss();
+                SanPham tempSP = null;
+                for (SanPham i : sanPhamArrayList) {
+                    if (i.getMaSP() == tempTT.getMaSP()) {
+                        tempSP = i;
+                    }
+                }
+                fakearr.add(tempSP);
+                Log.i("hi", String.valueOf(tempSP.getTenSP()));
+                fakeAdapter.notifyDataSetChanged();
+            }
+        });
+
+        dialog.show();
+    }
+
+    public void DialogHienThi(int maDH) {
+        getDataSanPham();
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_xem_don_dat_hang);
+
+        TextView tvHienThi = dialog.findViewById(R.id.tvXemDDH);
+        tvHienThi.setText("Mã DDH: "+maDH+"\n");
+
+        ArrayList<ThongTinDDH> thongTinDDHArrayList = new ArrayList<>();
+        ListView lvTTDDH = dialog.findViewById(R.id.lvXEMTTDDH);
+
+        ArrayList<SanPham> tempSPList = new ArrayList<>();
+        XemSanPhamAdapter tempSPAdapter = new XemSanPhamAdapter(this, R.layout.dong_xem_san_pham, tempSPList);
+        lvTTDDH.setAdapter(tempSPAdapter);
+
+        thongTinDDHArrayList.clear();
+        Cursor dataTTDDH = database.GetData("SELECT * FROM THONGTINDDH WHERE MADH=" + maDH);
+        while (dataTTDDH.moveToNext()) {
+            int maSP = dataTTDDH.getInt(1);
+            int slDat = dataTTDDH.getInt(2);
+            thongTinDDHArrayList.add(new ThongTinDDH(maDH, maSP, slDat));
+        }
+        tempSPList.clear();
+        for (ThongTinDDH i : thongTinDDHArrayList) {
+            for (int j = 0; j < sanPhamArrayList.size(); j++) {
+                if (sanPhamArrayList.get(j).getMaSP() == i.getMaSP()) {
+                    tempSPList.add(sanPhamArrayList.get(j));
+                    break;
+                }
+            }
+        }
+
+        tempSPAdapter.notifyDataSetChanged();
+        dialog.show();
+    }
 
     public void DialogXoa(int id) {
         AlertDialog.Builder dialogXoa = new AlertDialog.Builder(this);

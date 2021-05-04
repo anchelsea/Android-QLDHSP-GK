@@ -3,9 +3,9 @@ package com.an.qldhsp;
 public class DonDatHang {
     private int maDH;
     private String ngay;
-    private String maKH;
+    private int maKH;
 
-    public DonDatHang(int maDH, String ngay, String maKH) {
+    public DonDatHang(int maDH, String ngay, int maKH) {
         this.maDH = maDH;
         this.ngay = ngay;
         this.maKH = maKH;
@@ -27,11 +27,11 @@ public class DonDatHang {
         this.ngay = ngay;
     }
 
-    public String getMaKH() {
+    public int getMaKH() {
         return maKH;
     }
 
-    public void setMaKH(String maKH) {
+    public void setMaKH(int maKH) {
         this.maKH = maKH;
     }
 }

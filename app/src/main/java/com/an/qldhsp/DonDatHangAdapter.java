@@ -1,12 +1,17 @@
 package com.an.qldhsp;
 
 import android.content.Context;
+import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -40,6 +45,7 @@ public class DonDatHangAdapter extends BaseAdapter {
     private class ViewHolder {
         TextView tvMaDH, tvMaKH, tvNgay, tvThanhTien;
         ImageView ivDelete, ivEdit;
+        LinearLayout layoutDDH;
     }
 
     @Override
@@ -55,6 +61,7 @@ public class DonDatHangAdapter extends BaseAdapter {
             holder.tvThanhTien = convertView.findViewById(R.id.tvThanhTien);
             holder.ivEdit = convertView.findViewById(R.id.ivEditHD);
             holder.ivDelete = convertView.findViewById(R.id.ivDeleteHD);
+            holder.layoutDDH=convertView.findViewById(R.id.layout_dong_HD);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -69,13 +76,20 @@ public class DonDatHangAdapter extends BaseAdapter {
         holder.ivEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-        //        context.DialogSua(donDatHang.getMaDH(),donDatHang.getMaKH(),donDatHang.getNgay());
+                context.DialogSua(donDatHang.getMaDH(),donDatHang.getMaKH(),donDatHang.getNgay());
             }
         });
         holder.ivDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 context.DialogXoa(donDatHang.getMaDH());
+            }
+        });
+
+        holder.layoutDDH.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.DialogHienThi(donDatHang.getMaDH());
             }
         });
 
