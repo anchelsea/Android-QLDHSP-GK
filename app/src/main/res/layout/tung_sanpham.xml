@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    >
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        >
+        <ImageView
+            android:id="@+id/hienthihinhsanpham"
+            android:layout_width="100dp"
+            android:layout_height="130dp"
+            android:background="@drawable/border"
+            android:src="@drawable/avt"
+
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="10dp"
+        >
+        <TextView
+            android:id="@+id/hienthitensp"
+            android:paddingTop="5dp"
+            android:layout_marginBottom="2dp"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:text="Tên Sản Phẩm : "
+            android:textSize="14dp"
+            />
+        <TextView
+            android:id="@+id/hienthixuatxu"
+            android:paddingTop="5dp"
+            android:layout_marginBottom="2dp"
+            android:layout_width="200dp"
+            android:layout_height="30dp"
+            android:text="Xuất Xứ : "
+            android:textSize="14dp"
+            />
+        <TextView
+            android:id="@+id/hienthidongia"
+            android:paddingTop="5dp"
+            android:layout_width="200dp"
+            android:layout_height="30dp"
+            android:text="Đơn Giá : "
+            android:textSize="14dp"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <ImageButton
+            android:id="@+id/imgBtn_suasp"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_edit"
+            />
+        <ImageButton
+            android:id="@+id/imgBtn_xoasp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete"
+            />
+    </LinearLayout>
+
+</LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
