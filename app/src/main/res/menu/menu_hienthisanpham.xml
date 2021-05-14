@@ -6,10 +6,9 @@
         android:id="@+id/menuhienthisp_them"
         android:icon="@drawable/ic_add"
         app:showAsAction="always"/>
+
     <item android:title="exit"
         android:id="@+id/menuhienthisp_thoat"
         android:icon="@drawable/ic_back"
         app:showAsAction="always"/>
-
-
 </menu>

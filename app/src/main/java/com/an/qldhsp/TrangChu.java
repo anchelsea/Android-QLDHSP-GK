@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 public class TrangChu extends AppCompatActivity {
 
-    LinearLayout layoutSP, layoutKH,layoutDDH;
+    LinearLayout layoutSP, layoutKH,layoutDDH,layoutTK;
     TextView tvInfo;
     DatabaseHelper databaseHelper;
 
@@ -50,6 +50,14 @@ public class TrangChu extends AppCompatActivity {
             }
         });
 
+        Intent intentTK = new Intent(this,HienThiTopSanPham.class);
+        layoutTK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(intentTK);
+            }
+        });
+
         tvInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,6 +74,7 @@ public class TrangChu extends AppCompatActivity {
         layoutSP = findViewById(R.id.layoutsanpham);
         layoutKH = findViewById(R.id.layoutKH);
         layoutDDH = findViewById(R.id.layoutDDH);
+        layoutTK = findViewById(R.id.layoutTK);
         tvInfo=findViewById(R.id.tvInfo);
     }
 
