@@ -1,12 +1,17 @@
 package com.an.qldhsp;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.github.mikephil.charting.data.PieEntry;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -15,6 +20,23 @@ import java.util.Date;
 public class HienThiTopSanPham extends HienThiSanPham {
     ListView listViewSP;
     ArrayList<SanPham> sanPhamArrayList = new ArrayList<>();;
+
+    public ArrayList<SanPham> getSanPhamArrayList() {
+        return sanPhamArrayList;
+    }
+
+    public void setSanPhamArrayList(ArrayList<SanPham> sanPhamArrayList) {
+        this.sanPhamArrayList = sanPhamArrayList;
+    }
+
+    public ArrayList<Integer> getSoLuongList() {
+        return soLuongList;
+    }
+
+    public void setSoLuongList(ArrayList<Integer> soLuongList) {
+        this.soLuongList = soLuongList;
+    }
+
     ArrayList<Integer> soLuongList = new ArrayList<>();;
     TopSanPhamAdapter adapter;
     DatabaseHelper databaseHelper;
@@ -44,7 +66,21 @@ public class HienThiTopSanPham extends HienThiSanPham {
     @Override
     public boolean onOptionsItemSelected( MenuItem item) {
 
+        LinearLayout layoyt_chart=findViewById(R.id.pieChart);
         switch (item.getItemId()){
+            case R.id.menu_option0:
+                Intent intentTK = new Intent(this,BarChart_1.class);
+                Bundle bundle = new Bundle();
+                ArrayList<String> tenSanPhamList = new ArrayList<>();
+                for(int i=0;i<sanPhamArrayList.size();i++){
+                    tenSanPhamList.add(sanPhamArrayList.get(i).getTenSP());
+                }
+
+                bundle.putStringArrayList("tenSp",tenSanPhamList);
+                bundle.putIntegerArrayList("soluong",soLuongList);
+                intentTK.putExtras(bundle);
+                 startActivity(intentTK);
+                break;
             case R.id.menu_option1:
                 hienthitopsanpham(true);
                 TextView text1 =  (TextView) findViewById(R.id.tv_sanpham);
@@ -106,7 +142,10 @@ public class HienThiTopSanPham extends HienThiSanPham {
             soLuongList.add(soLuong);
         }
 
+
+
         adapter = new TopSanPhamAdapter(this,R.layout.tung_sanphamtop,sanPhamArrayList,soLuongList);
         listViewSP.setAdapter(adapter);
     }
+
 }

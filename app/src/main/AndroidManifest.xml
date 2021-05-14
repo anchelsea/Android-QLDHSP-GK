@@ -9,6 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.QLDHSP">
+        <activity android:name=".PieChart1"></activity>
+        <activity android:name=".BarChart_1" />
         <activity android:name=".TrangChu">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,35 +22,35 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+                <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
         </activity>
         <activity android:name=".HienThiSanPham">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+                <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
         </activity>
         <activity android:name=".QLKhachHang">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+                <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
         </activity>
         <activity android:name=".QLDonDatHang">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+                <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
         </activity>
         <activity android:name=".HienThiTopSanPham">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+                <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
         </activity>
     </application>

@@ -58,6 +58,22 @@ public class TrangChu extends AppCompatActivity {
             }
         });
 
+
+
+//        findViewById(R.id.buttonBarChart).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(getApplicationContext(), BarChart_1.class));
+//            }
+//        });
+//
+//        findViewById(R.id.buttonPieChart).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(getApplicationContext(),PieChart.class));
+//            }
+//        });
+
         tvInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
